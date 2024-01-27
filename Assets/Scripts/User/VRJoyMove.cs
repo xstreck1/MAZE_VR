@@ -5,6 +5,7 @@ public class VRJoyMove : MonoBehaviour
 {
     [SerializeField] private float speed = 5.0f; // Speed of the movement
     [SerializeField] private XRNode inputSource; // The VR controller to use
+    [SerializeField] private Transform headTransform;
 
     private Vector2 inputAxis; // Store the joystick input
 
@@ -17,8 +18,15 @@ public class VRJoyMove : MonoBehaviour
         device.TryGetFeatureValue(CommonUsages.primary2DAxis, out inputAxis);
 
         // Create a Vector3 movement direction (assuming the joystick moves the player on the X and Z axes)
-        Vector3 movement = new Vector3(inputAxis.x, 0.0f, inputAxis.y);
+        var movement = new Vector3(inputAxis.x, 0.0f, inputAxis.y);
 
+        var forward = headTransform.forward;
+        forward.y = 0;
+        var headForward = forward.normalized;
+        
+        // convert movement to the head's local space
+        movement = Quaternion.LookRotation(headForward) * movement;
+        
         // Move the GameObject
         transform.Translate(movement * speed * Time.deltaTime);
     }

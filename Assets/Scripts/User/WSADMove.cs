@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class WSADMove : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class WSADMove : MonoBehaviour
         // Create a Vector3 movement direction
         var movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
-        // Apply the movement to the Rigidbody
+        // Move the GameObject
         transform.Translate(movement * speed * Time.deltaTime);
     }
 }
