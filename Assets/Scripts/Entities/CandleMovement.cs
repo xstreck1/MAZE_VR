@@ -11,14 +11,14 @@ public class CandleMovement : MonoBehaviour
 
     void Start()
     {
-        origin = transform.position;
+        origin = transform.localPosition;
         targetPosition = GetRandomPosition();
     }
 
     void Update()
     {
         MoveTowardsTarget();
-        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+        if (Vector3.Distance(transform.localPosition, targetPosition) < 0.1f)
         {
             targetPosition = GetRandomPosition();
         }
@@ -26,7 +26,7 @@ public class CandleMovement : MonoBehaviour
 
     private void MoveTowardsTarget()
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.deltaTime);
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPosition, movementSpeed * Time.deltaTime);
     }
 
     private Vector3 GetRandomPosition()
@@ -35,7 +35,7 @@ public class CandleMovement : MonoBehaviour
         float randomDistance = Random.Range(0, radius);
         
         // Bias towards the origin: reduce the distance for points further from the origin
-        float distanceFromOrigin = Vector3.Distance(transform.position, origin);
+        float distanceFromOrigin = Vector3.Distance(transform.localPosition, origin);
         if (distanceFromOrigin > radius / 2)
         {
             randomDistance *= 0.5f; // adjust this factor to control the bias strength
