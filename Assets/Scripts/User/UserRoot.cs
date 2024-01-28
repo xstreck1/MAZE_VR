@@ -6,25 +6,30 @@ using UnityEngine.XR;
 
 public class UserRoot : MonoBehaviour
 {
-    [SerializeField] private GameObject xrRig;
-    [SerializeField] private GameObject pcRig;
+    [SerializeField] private UserRig xrRig;
+    [SerializeField] private UserRig pcRig;
+
+    private UserRig activeRig;
 
     private void Awake()
     {
 #if UNITY_ANDROID 
-        xrRig.SetActive(true);
-        pcRig.SetActive(false);
+        xrRig.gameObject.SetActive(true);
+        pcRig.gameObject.SetActive(false);
+        activeRig = xrRig;
 #else
         bool isVRDevice = CheckVRDevice();
         if (isVRDevice)
         {
-            xrRig.SetActive(true);
-            pcRig.SetActive(false);
+            xrRig.gameObject.SetActive(true);
+            pcRig.gameObject.SetActive(false);
+            activeRig = xrRig;
         }
         else
         {
-            xrRig.SetActive(false);
-            pcRig.SetActive(true);
+            xrRig.gameObject.SetActive(false);
+            pcRig.gameObject.SetActive(true);
+            activeRig = pcRig;
         }
 #endif
     }
@@ -41,5 +46,10 @@ public class UserRoot : MonoBehaviour
         }
         Debug.Log("No active VR device found.");
         return false;
+    }
+    
+    public void DisplayMessage(string message, float duration = 5.0f)
+    {
+        activeRig.DisplayMessage(message, duration);
     }
 }
