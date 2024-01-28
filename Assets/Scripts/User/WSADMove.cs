@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 public class WSADMove : MonoBehaviour
 {
     [SerializeField] private float speed = 5.0f; // Speed of the movement
+    [SerializeField] private BodyCollision bodyCollision;
     
     void LateUpdate()
     {
@@ -13,8 +14,10 @@ public class WSADMove : MonoBehaviour
 
         // Create a Vector3 movement direction
         var movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        movement = Quaternion.LookRotation(transform.forward) * movement;
+        movement = bodyCollision.StopBlockedDirections(movement);
 
         // Move the GameObject
-        transform.Translate(movement * speed * Time.deltaTime);
+        transform.localPosition += movement * speed * Time.deltaTime;
     }
 }

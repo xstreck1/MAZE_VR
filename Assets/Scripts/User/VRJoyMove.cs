@@ -6,6 +6,7 @@ public class VRJoyMove : MonoBehaviour
     [SerializeField] private float speed = 5.0f; // Speed of the movement
     [SerializeField] private XRNode inputSource; // The VR controller to use
     [SerializeField] private Transform headTransform;
+    [SerializeField] private BodyCollision bodyCollision;
 
     private Vector2 inputAxis; // Store the joystick input
 
@@ -26,8 +27,9 @@ public class VRJoyMove : MonoBehaviour
         
         // convert movement to the head's local space
         movement = Quaternion.LookRotation(headForward) * movement;
+        movement = bodyCollision.StopBlockedDirections(movement);
         
         // Move the GameObject
-        transform.Translate(movement * speed * Time.deltaTime);
+        transform.localPosition += movement * speed * Time.deltaTime;
     }
 }
