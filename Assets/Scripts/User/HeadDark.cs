@@ -1,11 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class HeadDark : MonoBehaviour
 {
     public MeshRenderer meshRenderer; // Reference to the MeshRenderer component
     private int triggerCount; // Counter for active triggers
     private Coroutine fadeCoroutine; // Reference to the fade coroutine
+    public float wallHitDuration = 1.0f; // Duration of the fade
 
     private void Start()
     {
@@ -30,6 +32,24 @@ public class HeadDark : MonoBehaviour
         CheckFade();
     }
 
+    public void FadeOut(float duration)
+    {
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine); 
+        }
+        fadeCoroutine = StartCoroutine(FadeAlpha(1.0f, duration));
+    }
+    
+    public void FadeIn(float duration)
+    {
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine); 
+        }
+        fadeCoroutine = StartCoroutine(FadeAlpha(0.0f, duration));
+    }
+    
     private void CheckFade()
     {
         if (fadeCoroutine != null)
@@ -38,13 +58,16 @@ public class HeadDark : MonoBehaviour
         }
 
         // Start fading in or out based on the trigger count
-        fadeCoroutine = StartCoroutine(triggerCount > 0 ? FadeAlpha(1.0f) : FadeAlpha(0.0f));
+        fadeCoroutine = StartCoroutine(
+            triggerCount > 0 
+                ? FadeAlpha(1.0f, wallHitDuration) 
+                : FadeAlpha(0.0f, wallHitDuration)
+                );
     }
 
-    private IEnumerator FadeAlpha(float targetAlpha)
+    public IEnumerator FadeAlpha(float targetAlpha, float duration)
     {
-        float duration = 2.0f; // Duration of the fade
-        Color currentColor = meshRenderer.material.color;
+        var currentColor = meshRenderer.material.color;
         float startAlpha = currentColor.a;
 
         for (float t = 0; t < duration; t += Time.deltaTime)
@@ -57,5 +80,6 @@ public class HeadDark : MonoBehaviour
 
         // Ensure final alpha value is set
         meshRenderer.material.color = new Color(currentColor.r, currentColor.g, currentColor.b, targetAlpha);
+        fadeCoroutine = null;
     }
 }

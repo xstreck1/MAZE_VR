@@ -10,6 +10,22 @@ public class UserRoot : MonoBehaviour
     [SerializeField] private UserRig pcRig;
 
     private UserRig activeRig;
+    
+    private Coroutine activeCoR;
+    
+    public event Action OnExitHit
+    {
+        add
+        {
+            pcRig.OnExitHit += value;
+            xrRig.OnExitHit += value;
+        }
+        remove
+        {
+            pcRig.OnExitHit -= value;
+            xrRig.OnExitHit -= value;
+        }
+    }
 
     private void Awake()
     {
@@ -51,5 +67,25 @@ public class UserRoot : MonoBehaviour
     public void DisplayMessage(string message, float duration = 5.0f)
     {
         activeRig.DisplayMessage(message, duration);
+    }
+    
+    public void ResetPosition()
+    {
+        activeRig.transform.position = Vector3.zero;
+    }
+
+    public void SetWin()
+    {
+        activeCoR ??= StartCoroutine(SetWinCoR());
+    }
+    
+    private IEnumerator SetWinCoR()
+    {
+        activeRig.DisplayMessage("You Win!");
+        activeRig.FadeOut(2);
+        yield return new WaitForSeconds(2);
+        ResetPosition();
+        activeRig.FadeIn(2);
+        activeCoR = null;
     }
 }

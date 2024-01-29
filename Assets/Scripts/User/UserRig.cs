@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +8,13 @@ public class UserRig : MonoBehaviour
 {
     [SerializeField] private HeadDark headDark;
     [SerializeField] private TextMeshPro headText;
+    [SerializeField] private ExitHit exitHit;
+
+    public event Action OnExitHit
+    {
+        add => exitHit.OnExitHit += value;
+        remove => exitHit.OnExitHit -= value;
+    }
     
     private Coroutine activeCoR;
 
@@ -35,9 +44,19 @@ public class UserRig : MonoBehaviour
         }
     }
     
+    public void FadeOut(float duration)
+    {
+        headDark.FadeOut(duration);
+    }
+    
+    public void FadeIn(float duration)
+    {
+        headDark.FadeIn(duration);
+    }
+    
     private IEnumerator FadeInMessageCoR(float time)
     {
-        Color c = headText.color;
+        var c = headText.color;
         for (float f = 0; f <= time; f += Time.deltaTime)
         {
             c.a = f / time;
@@ -50,7 +69,7 @@ public class UserRig : MonoBehaviour
 
     private IEnumerator FadeOutMessageCoR(float time)
     {
-        Color c = headText.color;
+        var c = headText.color;
         for (float f = 0; f <= time; f += Time.deltaTime)
         {
             c.a = 1 - f / time;

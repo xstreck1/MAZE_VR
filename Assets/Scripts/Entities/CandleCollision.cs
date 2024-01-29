@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CandleCollision : MonoBehaviour
 {
+    string wallTag = "Wall";
     public Light controlledLight; // Reference to the Light component
     private int triggerCount; // Counter for active triggers
     private Coroutine fadeCoroutine; // Reference to the fade coroutine
@@ -22,17 +23,23 @@ public class CandleCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        triggerCount++; // Increment counter on entering a trigger
-        CheckFade();
+        if (other.CompareTag(wallTag))
+        {
+            triggerCount++; // Increment counter on entering a trigger
+            CheckFade();
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (triggerCount > 0)
+        if (other.CompareTag(wallTag))
         {
-            triggerCount--; // Decrement counter on exiting a trigger
+            if (triggerCount > 0)
+            {
+                triggerCount--; // Decrement counter on exiting a trigger
+            }
+            CheckFade();
         }
-        CheckFade();
     }
 
     private void CheckFade()
