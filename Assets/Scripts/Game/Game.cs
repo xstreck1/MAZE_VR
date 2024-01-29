@@ -11,7 +11,7 @@ public class Game : MonoBehaviour
 
     private void ExitHit()
     {
-        userRoot.DisplayMessage("YOU WIN!");
+        userRoot.DisplayMessage("YOU WIN!\nREPEAT.");
         userRoot.SetWin();
     }
 
