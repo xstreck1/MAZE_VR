@@ -44,7 +44,10 @@ public class MazeEditor : Editor
                 if (!booleanArray[x, y])
                 {
                     Vector3 position = new Vector3(x * offset, 0, y * offset); // Adjust this position as needed
-                    var newChild = Instantiate(prefab, parent);
+
+                    var newChild = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+                    System.Diagnostics.Debug.Assert(newChild != null, nameof(newChild) + " != null");
+                    newChild.transform.SetParent(parent);
                     newChild.transform.localPosition = position;
                 }
             }
