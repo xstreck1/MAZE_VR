@@ -353,6 +353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledLight: {fileID: 673635715246545926}
+  holderMaterial: {fileID: 7437841635123080844}
   duration: 0.25
 --- !u!114 &6958000292322365920
 MonoBehaviour:
@@ -476,12 +477,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: df732ec752b8b604da966935f1bc76e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0502
+      value: -0.0596
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: df732ec752b8b604da966935f1bc76e6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0001640857
+      value: -0.0002
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: df732ec752b8b604da966935f1bc76e6,
         type: 3}
@@ -538,6 +539,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df732ec752b8b604da966935f1bc76e6, type: 3}
+--- !u!23 &7437841635123080844 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: df732ec752b8b604da966935f1bc76e6,
+    type: 3}
+  m_PrefabInstance: {fileID: 8140555593883431432}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8607409490557457891 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: df732ec752b8b604da966935f1bc76e6,
